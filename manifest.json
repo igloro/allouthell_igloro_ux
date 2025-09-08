@@ -1,0 +1,15 @@
+{
+  "name": "All Out Hell Redesign",
+  "version": "1.0",
+  "description": "Custom redesign for All Out Hell using CSS and JS",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["https://www.allouthell.com/*"],
+      "css": ["styles.css"],
+      "js": ["script.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
+

@@ -1,0 +1,63 @@
+/* Make event/discussion text boxes taller and darker */
+#topsection, #footer
+{
+  display: none !important;
+}
+
+#contentwrapper {
+  float: left !important;
+  width: 80% !important;
+}
+
+#contentcolumn
+{
+  float: right !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+#rightcolumn
+{
+  float: left !important;
+  width: calc(80%) !important;
+  height: calc(100% - 300px) !important;
+}
+
+#rightcolumn2
+{
+  float: right;
+  width: calc(20%) !important;
+  height: calc(100% - 300px) !important;
+}
+
+#mapDis tr td .tile {
+  width: 200px !important;
+  height: 200px !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+#mapDis
+{
+  float: right !important;
+  margin: 0 auto;
+  display: block;
+  width: 628px;
+  border: 10px solid #161616;
+}
+
+#eventText
+{
+  float: left;
+  width: calc(100% - 651px) !important;
+  overflow: hidden;
+  height: 669px !important;
+  max-height: 900px !important
+}
+
+.actions
+{
+  background: none !important;
+  float: right;
+  padding: 0px;
+}
