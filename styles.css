@@ -6,7 +6,7 @@
 
 #contentwrapper {
   float: left !important;
-  width: 80% !important;
+  width: 70% !important;
 }
 
 #contentcolumn
@@ -19,14 +19,14 @@
 #rightcolumn
 {
   float: left !important;
-  width: calc(80%) !important;
+  width: calc(70%) !important;
   height: calc(100% - 300px) !important;
 }
 
 #rightcolumn2
 {
   float: right;
-  width: calc(20%) !important;
+  width: calc(30%) !important;
   height: calc(100% - 300px) !important;
 }
 
@@ -60,4 +60,40 @@
   background: none !important;
   float: right;
   padding: 0px;
+}
+
+.inventory_b {
+  float: left;
+  border: 1px solid #4c3719;
+  text-align: center;
+}
+
+.inventory_b td {
+  position: relative;
+}
+
+.inventory_b td img 
+{
+  width: 64px;
+  height: 64px;
+}
+
+.inventory_b td a {
+  background-color: #2e271c;
+  display: block;
+}
+
+.inventory_b td a:hover {
+  opacity: 0.8;
+  background-color: #4c3719;
+}
+
+.inventory_b td span {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  font-size: 10px;
+  color: #c0c0c0;
+  background-color: #000;
+  border: 1px solid #c0c0c0;
 }
