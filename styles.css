@@ -74,8 +74,9 @@
 
 .inventory_b td img 
 {
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid transparent;
 }
 
 .inventory_b td a {
