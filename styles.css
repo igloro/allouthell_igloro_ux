@@ -66,6 +66,7 @@
   float: left;
   text-align: center;
   position: relative;
+  z-index: 1;
 }
 
 .inventory_b td {
@@ -103,6 +104,21 @@
   width: 10px;
   height: 10px;
   font-size: 11px;
+}
+
+span.count_b {
+  position: absolute;
+  right: -1px !important;
+  top: -1px !important;
+  line-height: 10px !important;
+  z-index: 2;
+  color: #fff !important;
+  width: 10px !important;
+  height: 10px !important;
+  font-size: 10px !important;
+  text-align: center !important;
+  border: 0px !important;
+  background: none !important;
 }
 
 .second_url:hover {
