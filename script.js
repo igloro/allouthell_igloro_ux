@@ -119,6 +119,9 @@ setTimeout(() => {
                     var actionUrl = false;
                     var actionText = '';
 
+                    var secondActionUrl = false;
+                    var secondActionText = '';
+
                     if (Object.keys(items).some(key => textContent.includes(key))) {
 
                         row.classList.add("inventory_b");
@@ -137,7 +140,34 @@ setTimeout(() => {
                         }
                     }
 
-                    
+
+                    //check for secondTd if it has a href
+                    if (secondTd.querySelector("a")) {
+                        //take first url from a href
+                        secondActionUrl = secondTd.querySelector("a").href;
+
+                        //check attribute onmouseover if has text - Remove item
+                        if( secondTd.querySelector("a").getAttribute("onmouseover").includes("Remove item") )
+                        {
+                            secondActionText = 'Remove item';
+                        }
+                        else if( secondTd.querySelector("a").getAttribute("onmouseover").includes("Open") )
+                        {
+                            secondActionText = 'Open';
+                        }
+                        else if( secondTd.querySelector("a").getAttribute("onmouseover").includes("Close") )
+                        {
+                            secondActionText = 'Close';
+                        }
+                        else {
+
+                            let explodeONV = secondTd.querySelector("a").getAttribute("onmouseover").split("TITLE,'");
+                            explodeONV = explodeONV[1].split("'");
+                            secondActionText = explodeONV[0];
+                            //take first
+                        }
+                        
+                    }
 
                     //for second td check if it has number between brackets like (1) . Remove brackets and add span around number.
                     const match = textContent.match(/\((\d+)\)/);
@@ -153,7 +183,6 @@ setTimeout(() => {
                             console.log("something is wrong with replacement");
                         }
                     }
-
                     
                     if(row.classList.contains("inventory_b"))
                     {
@@ -163,6 +192,8 @@ setTimeout(() => {
                         imageElement.src = itemImage;
                         imageElement.title = itemName;
                         secondTd.innerHTML = "";
+
+                        let secondActionUsed = false;
 
                         if(actionUrl !== false)
                         {
@@ -177,9 +208,34 @@ setTimeout(() => {
                                 imageElement.title = actionText + " " + itemName;
                             }
                         }
+                        else if(secondActionUrl !== false)
+                        {
+                            secondActionUsed = true;
+                            const aElement = document.createElement("a");
+                            aElement.href = secondActionUrl;
+                            aElement.appendChild(imageElement);
+                            secondTd.appendChild(aElement);
+                            imageElement.title = secondActionText + " " + itemName;
+                        }
                         else
                         {
                             secondTd.appendChild(imageElement);
+                        }
+
+                        //if secondActionUrl is not false add it as data-url and secondActionText as data-text
+                        secondTd.setAttribute("data-name", itemName);
+
+                        if(secondActionUrl !== false && !secondActionUsed)
+                        {
+                            //append <a href= to secondTd
+                            const aElement = document.createElement("a");
+                            aElement.href = secondActionUrl;
+                            //add Class second_url
+                            aElement.classList.add("second_url");
+                            aElement.textContent = "*";
+                            aElement.title = secondActionText;
+                            secondTd.appendChild(aElement);
+                            //addClass second_url
                         }
                     }
                 }
@@ -188,6 +244,10 @@ setTimeout(() => {
     });
 
 }, 200);
+
+
+
+
 
 window.addEventListener("load", () => {
     const rightcolumn2 = document.createElement("div");
