@@ -19,7 +19,7 @@ This Chrome extension enhances the user interface of the browser game [All Out H
 
 ### 1. Clone or Download the Folder
 
-```bash
+bash
 git clone https://github.com/igloro/allouthell_igloro_ux.git
 
 Or download the ZIP and extract it to a folder.
@@ -34,32 +34,16 @@ Enable Developer Mode using the toggle in the top right.
 ### 3. Load Unpacked Extension
 
 Click "Load unpacked"
-
 Select the folder you downloaded or cloned (allouthell_igloro_ux/)
-
 Done!
 
 The extension will now automatically apply on all pages under https://allouthell.com/*.
 
-
 Project Structure
-
+```
 allouthell_igloro_ux/
 ├── manifest.json        # Extension configuration
 ├── styles.css           # Custom styles for redesign
 ├── script.js            # DOM manipulation logic
+```
 
-
-Updating
-
-Make changes to styles.css or script.js
-
-Go to chrome://extensions
-
-Click "Reload" on the extension
-
-Refresh All Out Hell
-
-📄 License
-
-This project is distributed privately for personal or internal use. Do not rehost or republish without permission.
