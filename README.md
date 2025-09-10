@@ -10,8 +10,6 @@ This Chrome extension enhances the user interface of the browser game [All Out H
 
 - 🧍 Redesigned **Equipment & Inventory Panel**
 - 🖼️ Item icons and slot visuals for better readability
-- 📦 Better organization of Events, Discussion, and Action areas
-- 🧠 Enhanced layout for faster decision-making and easier management
 
 ---
 
