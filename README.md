@@ -24,14 +24,14 @@ git clone https://github.com/igloro/allouthell_igloro_ux.git
 
 Or download the ZIP and extract it to a folder.
 
-2. Open Chrome Extensions Page
+### 2. Open Chrome Extensions Page
 
 Go to:
 chrome://extensions
 
 Enable Developer Mode using the toggle in the top right.
 
-3. Load Unpacked Extension
+### 3. Load Unpacked Extension
 
 Click "Load unpacked"
 
