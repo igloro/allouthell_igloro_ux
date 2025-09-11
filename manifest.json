@@ -5,7 +5,7 @@
   "manifest_version": 3,
   "content_scripts": [
     {
-      "matches": ["https://www.allouthell.com/*"],
+      "matches": ["https://allouthell.com/*", "https://www.allouthell.com/*"],
       "css": ["styles.css"],
       "js": ["script.js"],
       "run_at": "document_end"
