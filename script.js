@@ -3,7 +3,7 @@ async function loadItems() {
     //try first to load from https://abesttools.com/game/itemjson
     try {
         
-        const response = await fetch("https://abesttools.com/game/itemjson?v=1");
+        const response = await fetch("https://abesttools.com/game/itemjson?v=2");
         const data = await response.json();
         window.items = data; // now 'items' is globally available
 
@@ -21,10 +21,19 @@ async function loadItems() {
         } catch (err) {
             console.error("Failed to load items.json:", err);
         }
-        
     }
+}
 
-    
+//check for #eventText if last message contains font color red 
+function isLastMessageRed() {
+    const eventText = document.getElementById("eventText");
+    if (eventText) {
+        const lastMessage = eventText.lastElementChild;
+        if (lastMessage && lastMessage.style.color === "red") {
+            return true;
+        }
+    }
+    return false;
 }
 
 function initInventory() {
@@ -95,9 +104,11 @@ function initInventory() {
                         missingItems.push(textContent);
                     }
 
+                    var mouseoverAttr = undefined;
+
                     if (secondTd.querySelector("a")) {
                         secondActionUrl = secondTd.querySelector("a").href;
-                        const mouseoverAttr = secondTd.querySelector("a").getAttribute("onmouseover") || "";
+                        mouseoverAttr = secondTd.querySelector("a").getAttribute("onmouseover") || "";
 
                         if (mouseoverAttr.includes("Remove item")) {
                             secondActionText = 'Remove item';
@@ -123,15 +134,31 @@ function initInventory() {
                     const numberValue2 = match2 ? match2[1] : false;
 
                     if (row.classList.contains("inventory_b")) {
-                        const itemName = Object.keys(items).find(key => textContent.includes(key));
+
+                        //check textContent if contains ( or [ . explode and take first part if exists, else leave as it is
+                        var textContentClean = textContent;
+                        if (textContent.includes("(")) {
+                            textContentClean = textContent.split("(")[0];
+                        } else if (textContent.includes("[")) {
+                            textContentClean = textContent.split("[")[0];
+                        }
+                        
+                        //strtolower 
+                        textContentClean = textContentClean.toLowerCase();
+
+                        const itemName = Object.keys(items).find(key => key.toLowerCase().trim() === textContentClean.trim());
                         const itemImage = items[itemName];
 
-                        const imageElement = document.createElement("img");
-                        imageElement.src = itemImage;
-                        imageElement.title = itemName;
+                        console.log(textContentClean + ": " + itemName);
 
-                        secondTd.innerHTML = "";
+                        const imageElement = document.createElement("img");
                         let secondActionUsed = false;
+
+                        if(itemName != undefined) {
+                            secondTd.innerHTML = "";
+                            imageElement.src = itemImage;
+                            imageElement.title = textContent;
+                        }
 
                         if (actionUrl !== false) {
                             const aElement = document.createElement("a");
@@ -167,6 +194,8 @@ function initInventory() {
                         }
 
                         secondTd.setAttribute("data-name", itemName);
+                        //add attribute .inventory_b_inner
+                        secondTd.classList.add("inventory_b_inner");
 
                         if (secondActionUrl !== false && !secondActionUsed) {
                             const aElement = document.createElement("a");
@@ -206,6 +235,50 @@ window.addEventListener("load", () => {
         rightcolumn2.appendChild(stats);
     } else {
         console.log("stats or rightcolumn not exists");
+    }
+});
+
+//on #eventText change this this function
+window.addEventListener("load", () => {
+    const eventText = document.getElementById("eventText");
+    var notifiedLastMessageRed = false;
+
+    //get current stage of .event-entry messages
+    const AllMessages = document.querySelectorAll(".event-entry");
+    const lastThreeMessages = Array.from(AllMessages).slice(AllMessages.length - 3, AllMessages.length);
+    const lastThreeMessagesWithRed = Array.from(lastThreeMessages).filter(message => message.querySelector("font[color='red']")).length >= 0;
+    
+    
+    if (lastThreeMessagesWithRed) {
+        notifiedLastMessageRed = true;
+    }
+
+    if (eventText) {
+        let lastMessageRed = false;
+        setInterval(async () => {
+            try {
+                const response = await fetch("https://www.allouthell.com/ajax/ajax_Events.php");
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+
+                const AllMessages = doc.querySelectorAll(".event-entry");
+                const lastThreeMessages = Array.from(AllMessages).slice(AllMessages.length - 3, AllMessages.length);
+                const lastThreeMessagesWithRed = Array.from(lastThreeMessages).filter(message => message.querySelector("font[color='red']")).length >= 0;
+                
+                
+                if (lastThreeMessagesWithRed && !notifiedLastMessageRed) {
+                    alert('Attacked');
+                    notifiedLastMessageRed = true;
+
+                } else if (!lastThreeMessagesWithRed && notifiedLastMessageRed) {
+                    
+                    notifiedLastMessageRed = false;
+                }
+            } catch (err) {
+                console.error("Failed to fetch events:", err);
+            }
+        }, 5000);
     }
 });
 

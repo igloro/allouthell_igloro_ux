@@ -78,15 +78,15 @@
   z-index: 1;
 }
 
-.inventory_b td {
+.inventory_b td.inventory_b_inner {
   position: relative;
   border: 1px solid #4c3719;
 }
 
 .inventory_b td img 
 {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   border: 1px solid transparent;
 }
 
@@ -117,8 +117,8 @@
 
 span.count_b {
   position: absolute;
-  right: -1px !important;
-  top: -1px !important;
+  right: 0px !important;
+  top: 0px !important;
   line-height: 10px !important;
   z-index: 2;
   color: #fff !important;
