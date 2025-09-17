@@ -20,7 +20,7 @@
 {
   float: left !important;
   width: calc(70%) !important;
-  height: calc(100% - 300px) !important;
+  height: calc(100% - 304px) !important;
 }
 
 #rightcolumn2
@@ -30,11 +30,19 @@
   height: calc(100% - 300px) !important;
 }
 
+#mapDis {
+  padding: 0px !important;
+  margin: 0px !important;
+  border: 0px !important
+}
+
 #mapDis tr td .tile {
   width: 200px !important;
   height: 200px !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
+  max-width: 33% !important;
+  border: 0px !important
 }
 
 #mapDis
@@ -52,7 +60,8 @@
   width: calc(100% - 651px) !important;
   overflow: hidden;
   height: 669px !important;
-  max-height: 900px !important
+  max-height: 900px !important;
+  padding: 0px !important;
 }
 
 .actions
@@ -141,4 +150,15 @@ span.count_b {
   color: #c0c0c0;
   background-color: #000;
   border: 1px solid #c0c0c0;
+}
+
+.inventory_b td span.count_b {
+  opacity: 0.2 !important;
+}
+
+.inventory_b:hover td span.count_b {
+  background-color: #4c3719 ! important;
+  border: 1px solid #4c3719 ! important;
+  padding: 1px;
+  opacity: 1 !important;
 }

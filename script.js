@@ -3,7 +3,7 @@ async function loadItems() {
     //try first to load from https://abesttools.com/game/itemjson
     try {
         
-        const response = await fetch("https://abesttools.com/game/itemjson");
+        const response = await fetch("https://abesttools.com/game/itemjson?v=1");
         const data = await response.json();
         window.items = data; // now 'items' is globally available
 
@@ -118,9 +118,14 @@ function initInventory() {
                     const match = textContent.match(/\((\d+)\)/);
                     const numberValue = match ? match[1] : false;
 
+                    //check for [1] number like
+                    const match2 = textContent.match(/\[(\d+)\]/);
+                    const numberValue2 = match2 ? match2[1] : false;
+
                     if (row.classList.contains("inventory_b")) {
                         const itemName = Object.keys(items).find(key => textContent.includes(key));
                         const itemImage = items[itemName];
+
                         const imageElement = document.createElement("img");
                         imageElement.src = itemImage;
                         imageElement.title = itemName;
@@ -152,6 +157,12 @@ function initInventory() {
                             const spanElement = document.createElement("span");
                             spanElement.classList.add("count_b");
                             spanElement.textContent = numberValue;
+                            secondTd.appendChild(spanElement);
+                        }
+                        else if (numberValue2 !== false) {
+                            const spanElement = document.createElement("span");
+                            spanElement.classList.add("count_b");
+                            spanElement.textContent = numberValue2;
                             secondTd.appendChild(spanElement);
                         }
 
