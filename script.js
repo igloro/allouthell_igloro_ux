@@ -24,17 +24,6 @@ async function loadItems() {
     }
 }
 
-//check for #eventText if last message contains font color red 
-function isLastMessageRed() {
-    const eventText = document.getElementById("eventText");
-    if (eventText) {
-        const lastMessage = eventText.lastElementChild;
-        if (lastMessage && lastMessage.style.color === "red") {
-            return true;
-        }
-    }
-    return false;
-}
 
 function initInventory() {
     const missingItems = [];
@@ -149,8 +138,6 @@ function initInventory() {
                         const itemName = Object.keys(items).find(key => key.toLowerCase().trim() === textContentClean.trim());
                         const itemImage = items[itemName];
 
-                        console.log(textContentClean + ": " + itemName);
-
                         const imageElement = document.createElement("img");
                         let secondActionUsed = false;
 
@@ -223,63 +210,57 @@ function initInventory() {
     }
 }
 
-window.addEventListener("load", () => {
-    const rightcolumn2 = document.createElement("div");
-    rightcolumn2.id = "rightcolumn2";
-    const rightcolumn = document.getElementById("rightcolumn");
-    rightcolumn.parentNode.insertBefore(rightcolumn2, rightcolumn.nextSibling);
+var blockMoves = false;
 
-    const stats = document.querySelector(".stats");
-    if (rightcolumn && rightcolumn2 && stats) {
-        rightcolumn.removeChild(stats);
-        rightcolumn2.appendChild(stats);
-    } else {
-        console.log("stats or rightcolumn not exists");
-    }
-});
-
-//on #eventText change this this function
-window.addEventListener("load", () => {
-    const eventText = document.getElementById("eventText");
-    var notifiedLastMessageRed = false;
-
-    //get current stage of .event-entry messages
-    const AllMessages = document.querySelectorAll(".event-entry");
-    const lastThreeMessages = Array.from(AllMessages).slice(AllMessages.length - 3, AllMessages.length);
-    const lastThreeMessagesWithRed = Array.from(lastThreeMessages).filter(message => message.querySelector("font[color='red']")).length >= 0;
+function moveBlocks()
+{
+    loopBlocksCount++;
     
+    //check if all blocks exists and loaded
+    if(!blockMoves)
+    {
+        if (document.getElementById("rightcolumn") && document.querySelector(".stats")) {
+
+            console.log("all found");
+            const rightcolumn2 = document.createElement("div");
+            rightcolumn2.id = "rightcolumn2";
+            const rightcolumn = document.getElementById("rightcolumn");
+            rightcolumn.parentNode.insertBefore(rightcolumn2, rightcolumn.nextSibling);
     
-    if (lastThreeMessagesWithRed) {
-        notifiedLastMessageRed = true;
-    }
-
-    if (eventText) {
-        let lastMessageRed = false;
-        setInterval(async () => {
-            try {
-                const response = await fetch("https://www.allouthell.com/ajax/ajax_Events.php");
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, "text/html");
-
-                const AllMessages = doc.querySelectorAll(".event-entry");
-                const lastThreeMessages = Array.from(AllMessages).slice(AllMessages.length - 3, AllMessages.length);
-                const lastThreeMessagesWithRed = Array.from(lastThreeMessages).filter(message => message.querySelector("font[color='red']")).length >= 0;
-                
-                
-                if (lastThreeMessagesWithRed && !notifiedLastMessageRed) {
-                    alert('Attacked');
-                    notifiedLastMessageRed = true;
-
-                } else if (!lastThreeMessagesWithRed && notifiedLastMessageRed) {
-                    
-                    notifiedLastMessageRed = false;
-                }
-            } catch (err) {
-                console.error("Failed to fetch events:", err);
+            const stats = document.querySelector(".stats");
+            if (rightcolumn && rightcolumn2 && stats) {
+                rightcolumn.removeChild(stats);
+                rightcolumn2.appendChild(stats);
+            } else {
+                console.log("stats or rightcolumn not exists");
             }
-        }, 5000);
+            blockMoves = true;
+    
+            loadItems();
+        }
     }
+    
+}
+
+var loopBlocksMove;
+var loopBlocksCount = 0;
+var loopBlocksCountMax = 100;
+
+window.addEventListener("load", () => {
+
+    //while blockMoves is false loop every ms
+    loopBlocksMove = setInterval(moveBlocks, 100);
+
+    const stopLoop = () => {
+        if (loopBlocksCount > loopBlocksCountMax) {
+            clearInterval(loopBlocksMove);
+        }
+        else if (blockMoves) {
+            clearInterval(loopBlocksMove);
+        }
+    };
+
+    setInterval(stopLoop, 100);
 });
 
-loadItems();
+
