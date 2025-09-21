@@ -45,6 +45,14 @@
   border: 0px !important
 }
 
+#mapDis tr td .tile .mist
+{
+  width: 200px !important;
+  height: 200px !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
 #mapDis
 {
   float: right !important;
