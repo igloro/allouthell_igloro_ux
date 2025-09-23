@@ -94,6 +94,7 @@ function initInventory() {
                     }
 
                     var mouseoverAttr = undefined;
+                    var mouseoverAttrT = undefined;
 
                     if (secondTd.querySelector("a")) {
                         secondActionUrl = secondTd.querySelector("a").href;
@@ -112,6 +113,32 @@ function initInventory() {
                                 secondActionText = explodeONV[0];
                             }
                         }
+
+                        if (mouseoverAttr.includes("TITLE")) {
+                            let explodeONV = mouseoverAttr.split("TITLE,'");
+                            if (explodeONV[1]) {
+                                explodeONV = explodeONV[1].split("'");
+                                mouseoverAttrT = explodeONV[0];
+                            }
+                        }
+                    }
+                    else {
+
+                        const span = secondTd.querySelector("span");
+                        mouseoverAttr = span ? span.getAttribute("onmouseover") || "" : "";
+
+                        if (mouseoverAttr.includes("TITLE")) {
+                            let explodeONV = mouseoverAttr.split("TITLE,'");
+                            if (explodeONV[0]) {
+                                explodeONV = explodeONV[0].split("'");
+                                mouseoverAttrT = explodeONV[1];
+                            }
+                        }
+                    }
+
+                    if(mouseoverAttrT !== undefined) {
+                        //cleanup mouseoverAttrT . <br>
+                        mouseoverAttrT = mouseoverAttrT.replace(/<BR>/g, '');
                     }
 
                     // check for number like (1)
@@ -144,7 +171,12 @@ function initInventory() {
                         if(itemName != undefined) {
                             secondTd.innerHTML = "";
                             imageElement.src = itemImage;
-                            imageElement.title = textContent;
+
+                            if(mouseoverAttrT !== undefined) {
+                                imageElement.title = textContent + " - " + mouseoverAttrT;
+                            }
+                            else imageElement.title = textContent;
+                            
                         }
 
                         if (actionUrl !== false) {
@@ -154,7 +186,15 @@ function initInventory() {
                             secondTd.appendChild(aElement);
 
                             if (actionText !== '') {
+
+                                if(mouseoverAttrT !== undefined) {
+                                    imageElement.title = actionText + " " + itemName + " - " + mouseoverAttrT;
+                                }
+                                else 
                                 imageElement.title = actionText + " " + itemName;
+                            }
+                            else if(mouseoverAttrT !== undefined) {
+                                imageElement.title = itemName + " - " + mouseoverAttrT;
                             }
                         } else if (secondActionUrl !== false) {
                             secondActionUsed = true;
@@ -162,7 +202,11 @@ function initInventory() {
                             aElement.href = secondActionUrl;
                             aElement.appendChild(imageElement);
                             secondTd.appendChild(aElement);
-                            imageElement.title = secondActionText + " " + itemName;
+
+                            if(mouseoverAttrT !== undefined) {
+                                imageElement.title = secondActionText + " " + itemName + " - " + mouseoverAttrT;
+                            }
+                            else imageElement.title = secondActionText + " " + itemName;
                         } else {
                             secondTd.appendChild(imageElement);
                         }
